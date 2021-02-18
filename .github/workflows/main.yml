@@ -15,9 +15,9 @@ jobs:
       matrix:
         version: [6.18.04]
         allow_failure: [false]
-        include:
-          - version: latest
-            allow_failure: true
+        # include:
+        #   - version: latest
+        #     allow_failure: true
     steps:
       - name: checkout respository
         uses: actions/checkout@v2
@@ -52,3 +52,22 @@ jobs:
         with:
           name: skim_ggH
           path: skim_ggH.root
+
+  plot:
+    needs: skim
+    runs-on: ubuntu-latest
+    container: rootproject/root-conda:6.18.04
+    steps:
+      - name: checkout respository
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: skim_ggH.root
+      - name: histograms
+        run: |
+          python histogram.py skim_ggH.root ggH hist_ggH.root
+      - uses: actions/upload-artifact@v2
+        with:
+          name: hist_ggH
+          path: hist_ggH.root
+
