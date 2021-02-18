@@ -13,7 +13,7 @@ jobs:
     continue-on-error: ${{matrix.allow_failure}}
     strategy:
       matrix:
-        version: [6.18.04,latest]
+        version: [6.18.04]
         allow_failure: [false]
         include:
           - version: latest
@@ -43,4 +43,6 @@ jobs:
         with:
           name: skim6.18.04
       - name: skim
-        run: ./skim
+        run: |
+          chmod +x ./skim
+          ./skim
